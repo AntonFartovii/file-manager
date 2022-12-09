@@ -1,21 +1,24 @@
-import { messenger, getAccess } from "../utils/utils.js";
+
 import { cwd } from 'node:process'
-// import { copyFile } from 'fs/promises'
 import { join } from 'path'
-import { isFolder } from "../utils/utils.js"
 import { access } from 'fs/promises'
 import { createReadStream, createWriteStream } from 'fs'
+import {parseArgs} from "../utils.js";
+import {isFolder} from "../utils.js";
 
-export const cp = async (arg) => {
-    const src  = arg[0]
-    const dest = arg[1]
+export const cp = async ( args ) => {
+    let [from, to] = parseArgs( args )
 
+    console.log( 'from: ', from )
+    console.log( 'to: ', to )
     // cp path_to_file path_to_new_directory
+
+    console.log(join ( cwd(), from))
     try {
-        await access ( join ( cwd(), src) )
-        await isFolder( dest )
-        const readStream  = createReadStream( src )
-        const writeStream = createWriteStream( join (dest, src)  )
+        // await access ( join ( cwd(), from) )
+        // await isFolder( to )
+        const readStream  = createReadStream( from )
+        const writeStream = createWriteStream( to )
 
         writeStream.write('')
 
@@ -27,7 +30,7 @@ export const cp = async (arg) => {
             writeStream.end()
         })
 
-    } catch (e) {
-        messenger('fail')
+    } catch {
+        // messenger('fail')
     }
 }

@@ -1,40 +1,37 @@
-import { messenger, parseSpace } from "../utils/utils.js";
-import { cwd } from 'node:process'
+
+import process, { cwd } from 'node:process'
 import { createReadStream } from 'fs'
 import { join } from 'path'
 import { access } from 'fs/promises'
 
 export const cat = async (fileName) => {
 
-    let name = parseSpace( fileName )
-    const dest = join( cwd(), name )
-    const pathFile = join(cwd(), name  )
+    const pathFile = join(cwd(), fileName  )
 
     try {
         await access ( pathFile )
-
-        const stream = createReadStream(  dest )
+        const stream = createReadStream( pathFile )
 
         let body = ''
+        stream.on('data',  chunk => {
+            body += chunk
+        })
 
-        stream.on("data",  chunk => { body += chunk } )
-
-        stream.on('end',   () => {
+        stream.on('end', () => {
             process.stdout.write ( body + '\n' )
-            messenger('curDir');
+            // messenger('curDir');
         })
 
         stream.on('error', () => {
-            messenger('fail');
-
-
+            // messenger('fail');
             return
         })
+
         stream.on('finish', () => {
-            messenger('curDir');
+            // messenger('curDir');
         })
     } catch (e) {
-        messenger('fail')
+        // messenger('fail')
     }
 
 }
