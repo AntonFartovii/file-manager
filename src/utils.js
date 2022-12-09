@@ -1,5 +1,5 @@
 import process, {chdir, cwd} from 'node:process'
-import {lstat} from 'fs/promises'
+import {stat} from 'fs/promises'
 
 
 export function parseArgs( data, ) {
@@ -48,8 +48,14 @@ export function setStartingDir() {
     }
 }
 
-export function isFolder( itemPath ) {
-    return lstat( itemPath ).isDirectory()
+export async function isFolder( itemPath ) {
+    let stats = await stat( itemPath )
+    return stats.isDirectory()
 }
 
 
+export function getFileName( filePath ) {
+    let str = filePath.replace(/\\/g, '/');
+   return  str.split('/').at(-1)
+
+}

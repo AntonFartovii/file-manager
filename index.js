@@ -3,6 +3,9 @@ import process from 'node:process'
 import {app} from "./src/app.js";
 import './src/commandsRouter.js'
 import {parseArgs} from "./src/utils.js";
+import {isFolder} from "./src/utils.js";
+
+// console.log( await isFolder('c:/Users/anton/2.txt'));
 
 
 process.stdin.on('data', async (data) => {

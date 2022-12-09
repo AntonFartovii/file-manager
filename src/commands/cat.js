@@ -1,16 +1,16 @@
 
-import process, { cwd } from 'node:process'
+import process from 'node:process'
 import { createReadStream } from 'fs'
-import { join } from 'path'
+import { resolve } from 'path'
 import { access } from 'fs/promises'
 
 export const cat = async (fileName) => {
 
-    const pathFile = join(cwd(), fileName  )
+    const filePath = resolve( fileName )
 
     try {
-        await access ( pathFile )
-        const stream = createReadStream( pathFile )
+        await access ( filePath )
+        const stream = createReadStream( filePath )
 
         let body = ''
         stream.on('data',  chunk => {
@@ -18,6 +18,7 @@ export const cat = async (fileName) => {
         })
 
         stream.on('end', () => {
+            process.stdout.write ( `File's content:\n` )
             process.stdout.write ( body + '\n' )
             // messenger('curDir');
         })
@@ -35,3 +36,5 @@ export const cat = async (fileName) => {
     }
 
 }
+
+// cat path_to_file

@@ -1,24 +1,28 @@
 
 import { cwd } from 'node:process'
-import { join } from 'path'
+import { join, resolve } from 'path'
 import { access } from 'fs/promises'
 import { createReadStream, createWriteStream } from 'fs'
 import {parseArgs} from "../utils.js";
 import {isFolder} from "../utils.js";
+import {getFileName} from "../utils.js";
+import {rm} from "./rm.js";
 
-export const cp = async ( args ) => {
+export const cp = async ( args, deleteFrom= false ) => {
     let [from, to] = parseArgs( args )
 
     console.log( 'from: ', from )
     console.log( 'to: ', to )
-    // cp path_to_file path_to_new_directory
+    console.log( 'resolve from: ', resolve( from ) )
+    console.log( 'resolve to: ', resolve( cwd(), to ) )
+    const filename = getFileName( from )
+    console.log( 'resolve to file: ', resolve( to, filename ) )
 
-    console.log(join ( cwd(), from))
     try {
-        // await access ( join ( cwd(), from) )
-        // await isFolder( to )
-        const readStream  = createReadStream( from )
-        const writeStream = createWriteStream( to )
+        await access ( resolve(from) )
+        await isFolder( resolve(to) )
+        const readStream  = createReadStream( resolve(from) )
+        const writeStream = createWriteStream( resolve(to, filename) )
 
         writeStream.write('')
 
@@ -26,11 +30,16 @@ export const cp = async ( args ) => {
             writeStream.write(chunk)
         });
 
-        readStream.on('end', () => {
+        readStream.on('end', async () => {
             writeStream.end()
+            if ( deleteFrom ) {
+                await rm( args )
+            }
         })
 
     } catch {
         // messenger('fail')
     }
 }
+
+// cp path_to_file path_to_new_directory

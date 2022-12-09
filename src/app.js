@@ -4,7 +4,6 @@ import {readdir} from 'fs/promises'
 
 import {getUsername} from "./utils.js";
 import {getHomedir} from "./utils.js";
-import {cd} from "./commands/cd.js";
 import {setStartingDir} from "./utils.js";
 
 class FileManager{
@@ -35,11 +34,11 @@ class FileManager{
 
     createMessanges() {
         this.messanges  = {
-            'welcome': `Welcome to the File Manager, ${this.userName}!\n`,
+            'welcome': `Welcome to the File Manager, ${this.userName}!`,
             'curDir':  `You are currently in ${cwd()}`,
-            'bye':     `Thank you for using File Manager, ${this.userName}!\n`,
-            'inval':   `Invalid input\n`,
-            'fail':    `Operation failed\n`,
+            'bye':     `Thank you for using File Manager, ${this.userName}!`,
+            'inval':   `Invalid input`,
+            'fail':    `Operation failed`,
             'test':     `Testing...`
         }
     }
@@ -47,11 +46,11 @@ class FileManager{
     async execCommand( name, args) {
         this.comandArgs = args
         try {
-            console.log(`Выполняю команду-${name}-`)
-            console.log(`Выполняю аргумент-${args}-`)
+            // console.log(`Выполняю команду-${name}-`)
+            // console.log(`Выполняю аргумент-${args}-`)
             await this.function[name](args)
             this.printMessage('curDir')
-            console.log( cwd() )
+            // console.log( cwd() )
 
         } catch {
             await this.printMessage('inval')
@@ -63,6 +62,7 @@ class FileManager{
         this.function[command] = fn
     }
 }
+
 export const app = new FileManager()
 
 

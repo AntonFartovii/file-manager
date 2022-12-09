@@ -1,17 +1,24 @@
-
-import { cwd } from 'node:process'
-import { join } from 'path'
+import { resolve } from 'path'
 import { createWriteStream } from 'fs'
 
-export const add = async (fileName) => {
+export const add = async ( fileName ) => {
 
-    const pathFile = join( cwd(), fileName )
+    const filePath = resolve( fileName )
 
     try {
-        const writeStream = createWriteStream( pathFile  )
+        const writeStream = createWriteStream( filePath )
         writeStream.write('')
         writeStream.end('')
 
     } catch {
     }
 }
+
+// add new_file_name
+// Task: Create empty file in current working directory:
+
+// test commands:
+// add fartovii.txt
+// add C:\Users\fartovii.txt
+// add C:/Users/fartovii.txt
+
