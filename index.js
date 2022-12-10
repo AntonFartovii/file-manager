@@ -1,9 +1,24 @@
+import { createInterface } from 'node:readline';
+import { stdin as input, stdout as output } from 'node:process'
 import process from 'node:process'
-import {app} from "./src/app.js";
+import { app } from "./src/app.js";
 import './src/commandsRouter.js'
-import {parseArgs} from "./src/utils.js";
+import { parseArgs } from "./src/utils.js";
 
-process.stdin.on('data', async (data) => {
+const readline = createInterface({
+    input,
+    output
+})
+
+readline.on('SIGINT', () => {
+    readline.close()
+})
+
+readline.on ('close',  () => {
+    process.exit()
+})
+
+readline.on('line', async (data) => {
 
     const [command, args] = parseArgs( data )
     try {
@@ -15,14 +30,10 @@ process.stdin.on('data', async (data) => {
     }
 })
 
-process.on('SIGINT', async () => {
-    process.exit(0)
-})
+readline.on ('error',  ()=> {
+    app.printMessage('fail')
+});
 
-process.on('SIGTERM', () => {
-    process.exit(-1)
-})
-
-process.on('exit', async () => {
-    await app.printMessage('bye')
+process.on('exit', () => {
+    app.printMessage('bye')
 })
