@@ -4,14 +4,9 @@ import { createWriteStream } from 'fs'
 export const add = async ( fileName ) => {
 
     const filePath = resolve( fileName )
-
-    try {
-        const writeStream = createWriteStream( filePath )
-        writeStream.write('')
-        writeStream.end('')
-
-    } catch {
-    }
+    const writeStream = createWriteStream( filePath )
+    writeStream.write('')
+    writeStream.end('')
 }
 
 // add new_file_name

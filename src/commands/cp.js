@@ -11,28 +11,24 @@ import {parseArgs} from "../utils.js";
 export const cp = async ( args, deleteFrom= false ) => {
     let [from, to] = parseArgs( args )
     const filename = getFileName( from )
-    try {
-        await access ( resolve(from) )
-        await isFolder( resolve(to) )
-        const readStream  = createReadStream( resolve(from) )
-        const writeStream = createWriteStream( resolve(to, filename) )
 
-        writeStream.write('')
+    await access ( resolve(from) )
+    await isFolder( resolve(to) )
+    const readStream  = createReadStream( resolve(from) )
+    const writeStream = createWriteStream( resolve(to, filename) )
 
-        readStream.on('data', chunk => {
-            writeStream.write(chunk)
-        });
+    writeStream.write('')
 
-        readStream.on('end', async () => {
-            writeStream.end()
-            if ( deleteFrom ) {
-                await rm( args )
-            }
-        })
+    readStream.on('data', chunk => {
+        writeStream.write(chunk)
+    });
 
-    } catch {
-        // messenger('fail')
-    }
+    readStream.on('end', async () => {
+        writeStream.end()
+        if ( deleteFrom ) {
+            await rm( args )
+        }
+    })
 }
 
 // cp path_to_file path_to_new_directory

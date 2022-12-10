@@ -1,5 +1,9 @@
-import {cwd, chdir} from 'node:process'
+import { chdir } from 'node:process'
 
 export async function up() {
-    return await chdir('..')
+    await chdir('..')
 }
+
+// up
+// Go upper from current directory
+// (when you are in the root folder this operation shouldn't change working directory)

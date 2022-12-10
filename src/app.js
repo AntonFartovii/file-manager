@@ -1,12 +1,10 @@
-// import {createInterface} from 'node:readline'
 import process, {cwd, chdir} from 'node:process'
-import {readdir} from 'fs/promises'
 
 import {getUsername} from "./utils.js";
 import {getHomedir} from "./utils.js";
 import {setStartingDir} from "./utils.js";
 
-class FileManager{
+class FileManager {
     constructor() {
         this.function = {}
         this.mess = {}
@@ -22,7 +20,7 @@ class FileManager{
     }
 
     printMessage( name ) {
-        this.mess[ name ]()
+        this.mess[name]()
     }
 
     async execCommand( name, args) {
@@ -30,7 +28,11 @@ class FileManager{
     }
 
     on( command, fn ) {
-        this.function[command] = fn
+        try {
+            this.function[command] = fn
+        } catch {
+            this.printMessage('fail')
+        }
     }
 
     prepare() {
@@ -62,5 +64,3 @@ class FileManager{
 }
 
 export const app = new FileManager()
-
-

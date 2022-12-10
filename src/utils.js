@@ -24,27 +24,6 @@ export function parseArgs( data ) {
     ]
 }
 
-export async function search( string ) { // 'C:\Folder one
-    let path = []
-
-
-    return function searchPath( string ) { // 'C:\Folder one
-        const [data, str] = parseArgs( string ) // data: 'C:\Folder', str: 'one'
-        const sp = resolve(...path, data)
-        const isPath = existsSync ( sp )
-        console.log(isPath);
-        console.log( sp )
-        if ( !isPath ) {
-            path.push( sp )
-            searchPath(str)
-        }
-        return data
-    }
-
-}
-
-
-
 export function getHomedir() {
     return process.env.HOME || process.env.USERPROFILE;
 }
@@ -77,6 +56,10 @@ export async function isFolder( itemPath ) {
     return stats.isDirectory()
 }
 
+export async function isFile( itemPath ) {
+    let stats = await stat( itemPath )
+    return stats.isFile()
+}
 
 export function getFileName( filePath ) {
     let str = filePath.replace(/\\/g, '/');
