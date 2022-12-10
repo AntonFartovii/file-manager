@@ -1,8 +1,11 @@
 import process, {chdir, cwd} from 'node:process'
-import {stat} from 'fs/promises'
+import {stat, access} from 'fs/promises'
+import {resolve} from 'path'
+import { existsSync } from 'node:fs';
 
 
-export function parseArgs( data, ) {
+
+export function parseArgs( data ) {
     // i search command name before first space
     const str = data.toString('utf8').trim()
     const l = str.length
@@ -20,6 +23,27 @@ export function parseArgs( data, ) {
         ''
     ]
 }
+
+export async function search( string ) { // 'C:\Folder one
+    let path = []
+
+
+    return function searchPath( string ) { // 'C:\Folder one
+        const [data, str] = parseArgs( string ) // data: 'C:\Folder', str: 'one'
+        const sp = resolve(...path, data)
+        const isPath = existsSync ( sp )
+        console.log(isPath);
+        console.log( sp )
+        if ( !isPath ) {
+            path.push( sp )
+            searchPath(str)
+        }
+        return data
+    }
+
+}
+
+
 
 export function getHomedir() {
     return process.env.HOME || process.env.USERPROFILE;

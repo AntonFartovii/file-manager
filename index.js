@@ -1,17 +1,22 @@
 
-import process from 'node:process'
+import process, {cwd} from 'node:process'
 import {app} from "./src/app.js";
 import './src/commandsRouter.js'
 import {parseArgs} from "./src/utils.js";
-import {isFolder} from "./src/utils.js";
-
-// console.log( await isFolder('c:/Users/anton/2.txt'));
-
 
 process.stdin.on('data', async (data) => {
 
     const [command, args] = parseArgs( data )
-    await app.execCommand( command, args )
+
+    try {
+        await app.execCommand( command, args )
+        await app.printMessage('curDir')
+
+    } catch {
+        await app.printMessage('inval')
+        await app.printMessage('curDir')
+    }
+    // console.log(`You are currently in ${cwd()}`)
 })
 
 process.on('SIGINT', function () {

@@ -9,57 +9,55 @@ import {setStartingDir} from "./utils.js";
 class FileManager{
     constructor() {
         this.function = {}
+        this.mess = {}
         this.homeDir = getHomedir() || ''
         this.userName = getUsername() || ''
         this.prepare()
         this.init()
     }
 
-    prepare() {
-        setStartingDir()
-        this.createMessanges()
-    }
-
     init() {
-
         this.printMessage('welcome')
         this.printMessage('curDir')
-
     }
 
     printMessage( name ) {
-        const mes = this.messanges[ name ]
-        process.stdout.write( mes+'\n' )
-    }
-
-    createMessanges() {
-        this.messanges  = {
-            'welcome': `Welcome to the File Manager, ${this.userName}!`,
-            'curDir':  `You are currently in ${cwd()}`,
-            'bye':     `Thank you for using File Manager, ${this.userName}!`,
-            'inval':   `Invalid input`,
-            'fail':    `Operation failed`,
-            'test':     `Testing...`
-        }
+        this.mess[ name ]()
     }
 
     async execCommand( name, args) {
-        this.comandArgs = args
-        try {
-            // console.log(`Выполняю команду-${name}-`)
-            // console.log(`Выполняю аргумент-${args}-`)
-            await this.function[name](args)
-            this.printMessage('curDir')
-            // console.log( cwd() )
-
-        } catch {
-            await this.printMessage('inval')
-            await this.printMessage('curDir')
-        }
+        await this.function[name](args)
     }
 
     on( command, fn ) {
         this.function[command] = fn
+    }
+
+    prepare() {
+        setStartingDir()
+        this.mess = {
+            'curDir':  () => {
+               this.print(`You are currently in ${cwd()}`)
+            },
+            'welcome': () => {
+                this.print(`Welcome to the File Manager, ${this.userName}!`)
+            },
+            'bye':     () => {
+                this.print(`Thank you for using File Manager, ${this.userName}!`)},
+            'inval':   () => {
+                this.print(`Invalid input`)
+            },
+            'fail':    () => {
+                this.print(`Operation failed`)
+            },
+            'test':     () => {
+                this.print(`Testing...`)
+            }
+        }
+    }
+
+    print( mes ) {
+        process.stdout.write( mes+'\n' )
     }
 }
 
