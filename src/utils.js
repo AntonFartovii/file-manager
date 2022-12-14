@@ -1,4 +1,6 @@
 import { stat } from 'fs/promises'
+import {app} from "./app.js";
+import {access} from 'fs/promises'
 
 export function parseArgs( data ) {
     // i search command name before first space
@@ -51,4 +53,12 @@ export async function isFile( itemPath ) {
 export function getFileName( filePath ) {
     let str = filePath.replace(/\\/g, '/');
    return  str.split('/').at(-1)
+}
+
+export async function checkArg( arg ) {
+    try {
+        await access(arg)
+    } catch {
+        return app.printMessage('fail')
+    }
 }

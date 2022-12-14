@@ -1,14 +1,21 @@
 import process from 'node:process'
 import { createReadStream } from 'fs'
 import { resolve } from 'path'
-import { access } from 'fs/promises'
 import {app} from '../app.js'
+import {parseArgs} from "../utils.js";
+import {access} from 'fs/promises'
 
-export const cat = async ( fileName ) => {
+export const cat = async ( args ) => {
+    let [from, arg] = parseArgs( args )
+    if ( from === '' ) return app.printMessage('inval')
 
-    const filePath = resolve( fileName )
+    const filePath = resolve( from )
+    try {
+        await access(filePath)
+    } catch {
+        return app.printMessage('fail')
+    }
 
-    await access ( filePath )
     const stream = createReadStream( filePath )
 
     let body = ''
@@ -19,16 +26,15 @@ export const cat = async ( fileName ) => {
     stream.on('end', () => {
         process.stdout.write ( `File's content:\n` )
         process.stdout.write ( body + '\n' )
-        app.printMessage('curDir')
     })
 
     stream.on('error', () => {
-        app.printMessage('fail')
+        return app.printMessage('fail')
     })
 
-    // stream.on('finish', () => {
-    //     app.printMessage('curDir')
-    // })
+    stream.on('finish', () => {
+        app.printMessage('curDir')
+    })
 
 }
 
@@ -36,5 +42,5 @@ export const cat = async ( fileName ) => {
 // cat 'path_to_file'
 
 // Read file and print it's content in console (should be done using Readable stream)
-// Operation filed - неверная команда (отсутствует путь)
-// Invalid input - не существует файл или некорректный путь
+// Invalid input - неверная команда (отсутствует путь)
+// Operation filed - не существует файл или некорректный путь

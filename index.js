@@ -16,7 +16,7 @@ readline.on('line', async (data) => {
     try {
         await app.execCommand( command, args )
         await app.printMessage('curDir')
-    } catch {
+    } catch (error) {
         await app.printMessage('inval')
         await app.printMessage('curDir')
     }

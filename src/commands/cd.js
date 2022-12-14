@@ -5,11 +5,13 @@ import { app } from "../app.js";
 
 export async function cd( args ) {
 
-        if ( args === '' || undefined ) {
+        if ( args === '' ) return app.printMessage('inval')
+        const pathToDir = resolve( args )
+        try {
+                await access(pathToDir)
+        } catch {
                 return app.printMessage('fail')
         }
-        const pathToDir = resolve( args )
-        // console.log('pathToDir: ', pathToDir)
         await access ( pathToDir )
         await chdir( pathToDir )
 }
@@ -21,3 +23,5 @@ export async function cd( args ) {
 
 // Go to dedicated folder from current directory (path_to_directory can be relative or absolute)
 
+// Invalid input - incorrect command
+// Operation failed - not exist path
