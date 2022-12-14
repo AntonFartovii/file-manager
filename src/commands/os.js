@@ -1,7 +1,7 @@
-import {parseArgs} from "../utils.js";
-import {stdout} from 'node:process'
-import os from 'os'
-import {app} from "../app.js";
+import { parseArgs } from "../utils.js";
+import { stdout } from 'node:process'
+import * as os from 'os'
+import { app } from "../app.js";
 
 export const osFn = async ( args ) => {
 

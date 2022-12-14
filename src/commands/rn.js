@@ -1,21 +1,22 @@
 import { rename } from 'fs/promises'
 import { access } from 'fs/promises'
-import { cwd } from 'node:process'
 import { resolve } from 'path'
 import { createReadStream, createWriteStream } from 'fs'
-import {getFileName, parseArgs} from "../utils.js";
-import {rm} from "./rm.js";
-import {isFile} from "../utils.js";
-
-// rn path_to_file new_filename
+import {parseArgs} from "../utils.js";
+import {app} from "../app.js";
 
 export const rn = async  ( args ) => {
     let [from, to] = parseArgs( args )
 
+    if ( to === '') return app.printMessage('inval')
     // v.1
-    // await access ( resolve(from) )
-    await isFile( resolve(from) )
-    await rename( resolve(from), resolve(to) )
+    try {
+        await access ( resolve(from) )
+        await rename( resolve(from), resolve(to) )
+    } catch {
+        app.printMessage('fail')
+    }
+
 
     // v.2
     // const readStream  = createReadStream( resolve(from) )

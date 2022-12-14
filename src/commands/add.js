@@ -14,6 +14,6 @@ export const add = async ( fileName ) => {
 
 // test commands:
 // add fartovii.txt
-// add C:\Users\fartovii.txt
-// add C:/Users/fartovii.txt
+// add C:\Users\fartovii.txt'
+// add 'C:/Users/fartovii.txt'
 

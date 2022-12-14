@@ -10,16 +10,8 @@ const readline = createInterface({
     output
 })
 
-readline.on('SIGINT', () => {
-    readline.close()
-})
-
-readline.on ('close',  () => {
-    process.exit()
-})
-
 readline.on('line', async (data) => {
-
+    readline.pause()
     const [command, args] = parseArgs( data )
     try {
         await app.execCommand( command, args )
@@ -28,6 +20,15 @@ readline.on('line', async (data) => {
         await app.printMessage('inval')
         await app.printMessage('curDir')
     }
+    readline.prompt()
+})
+
+readline.on('SIGINT', () => {
+    readline.close()
+})
+
+readline.on ('close',  () => {
+    process.exit(0)
 })
 
 readline.on ('error',  ()=> {

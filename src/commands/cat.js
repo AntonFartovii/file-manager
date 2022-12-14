@@ -26,11 +26,15 @@ export const cat = async ( fileName ) => {
         app.printMessage('fail')
     })
 
-    stream.on('finish', () => {
-        app.printMessage('curDir')
-    })
+    // stream.on('finish', () => {
+    //     app.printMessage('curDir')
+    // })
 
 }
 
 // cat path_to_file
+// cat 'path_to_file'
+
 // Read file and print it's content in console (should be done using Readable stream)
+// Operation filed - неверная команда (отсутствует путь)
+// Invalid input - не существует файл или некорректный путь

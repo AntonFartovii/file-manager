@@ -27,7 +27,7 @@ app.on('rn', rn)    // rename file
 app.on('.exit', () => {
     process.exit(0)
 })    // exit
-app.on('hash', hash)    // calculate hash
+app.on('hash', hash)    // calculate file hash
 app.on('os', osFn)    // os
 app.on('compress', compress)    // compress
 app.on('decompress', decompress)    // decompress
