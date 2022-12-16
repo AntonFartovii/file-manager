@@ -6,12 +6,15 @@ import {access} from 'fs/promises'
 
 export const add = async ( args ) => {
 
-    let [from, arg] = parseArgs( args )
+    let [from] = args
     if ( from === '' ) return app.printMessage('inval')
 
     const filePath = resolve( from )
 
     const writeStream = createWriteStream( filePath )
+    writeStream.on('error', () => {
+        app.printMessage('fail')
+    })
     writeStream.write('')
     writeStream.end('')
 }

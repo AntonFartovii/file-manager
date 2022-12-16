@@ -2,11 +2,10 @@ import process from 'node:process'
 import { createReadStream } from 'fs'
 import { resolve } from 'path'
 import {app} from '../app.js'
-import {parseArgs} from "../utils.js";
 import {access} from 'fs/promises'
 
 export const cat = async ( args ) => {
-    let [from, arg] = parseArgs( args )
+    let [from] = args
     if ( from === '' ) return app.printMessage('inval')
 
     const filePath = resolve( from )
@@ -26,6 +25,7 @@ export const cat = async ( args ) => {
     stream.on('end', () => {
         process.stdout.write ( `File's content:\n` )
         process.stdout.write ( body + '\n' )
+        app.printMessage('curDir')
     })
 
     stream.on('error', () => {

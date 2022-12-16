@@ -5,7 +5,7 @@ import { app } from "../app.js";
 
 export const osFn = async ( args ) => {
 
-    const [command, arg] = parseArgs( args )
+    const [command] = args
 
     switch (command) {
         case '--EOL': {

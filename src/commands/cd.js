@@ -4,9 +4,9 @@ import { chdir } from 'node:process'
 import { app } from "../app.js";
 
 export async function cd( args ) {
-
+        let [src] = args
         if ( args === '' ) return app.printMessage('inval')
-        const pathToDir = resolve( args )
+        const pathToDir = resolve( src )
         try {
                 await access(pathToDir)
         } catch {

@@ -1,14 +1,20 @@
-import {parseArgs} from "../utils.js";
 import {app} from "../app.js";
 import {createReadStream} from 'fs'
 import {stdout} from 'node:process'
 import {resolve} from 'path'
 import {createHash} from 'crypto'
+import {access} from 'fs/promises'
 
 export const hash = async ( args ) => {
 
-    let [filename, arg] = parseArgs( args )
+    let [filename, arg] = args
+    if ( filename === '' ) return app.printMessage('inval')
     let filePath = resolve( filename )
+    try {
+        await access(filePath)
+    } catch {
+        return app.printMessage('fail')
+    }
     const stream = createReadStream( filePath )
 
     let content = ''

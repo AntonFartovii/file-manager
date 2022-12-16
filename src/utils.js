@@ -2,36 +2,36 @@ import { stat } from 'fs/promises'
 import {app} from "./app.js";
 import {access} from 'fs/promises'
 
-export function parseArgs( data ) {
-    // i search command name before first space
-    const str = data.toString('utf8').trim()
-    const l = str.length
+export function parseArgs(str) {
+    let acc = []
+    str = str.trim()
 
-    for ( let i = 0; i < l; i++ ) {
-        if ( str[i] === ' ' ) {
-            return [
-                deleteQuote( str.slice(0, i) ),
-                deleteQuote( str.slice(i + 1, l).trim() ),
-            ]
+    function arg ( str ) {
+
+        if ( str !== '' ) {
+            let condition = " "
+            let k = 0
+            if ( str[0] === "'" ) {
+                condition = "'"
+                k = 1
+            }
+
+            for ( let i = k; i < str.length; i++ ) {
+                if ( str[i] === condition ) {
+                    acc.push( str.slice(k, i) )
+                    if ( i + k < str.length ) {
+                        arg( str.slice(i + 1, str.length).trim() )
+                    }
+                    return
+                }
+            }
+            acc.push(str.slice(0, str.length))
+            return;
         }
+        acc.push('')
     }
-    return [
-        str.slice(0, l),
-        ''
-    ]
-}
-
-export function deleteQuote( str ) {
-    if ( str[0] === "'" && str[str.length-1] === "'") {
-        return str.slice(1, str.length-1)
-    }
-    if ( str[0] === "'") {
-        return str.slice(1, str.length)
-    }
-    if ( str[str.length-1] === "'") {
-        return str.slice(0, str.length-1)
-    }
-    return str
+    arg(str)
+    return acc
 }
 
 export function capitalize( str ) {

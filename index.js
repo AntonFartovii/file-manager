@@ -12,7 +12,7 @@ const readline = createInterface({
 
 readline.on('line', async (data) => {
     readline.pause()
-    const [command, args] = parseArgs( data )
+    const [command, ...args] = parseArgs( data )
     try {
         await app.execCommand( command, args )
         await app.printMessage('curDir')

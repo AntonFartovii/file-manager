@@ -2,24 +2,23 @@ import { createBrotliDecompress } from 'zlib'
 import { createReadStream, createWriteStream } from 'fs'
 import { access } from 'fs/promises'
 import { resolve } from 'path'
-import { isFolder } from "../utils.js";
-import { parseArgs } from "../utils.js";
 import { getFileName } from "../utils.js";
+import { app } from "../app.js";
 
 export const decompress = async ( args ) => {
 
-    const [from, to] = parseArgs( args )
+    const [from, to] = args
+    if ( to === '' ) return app.printMessage('inval')
+    try {
+        await access( resolve(from) )
+        await access( resolve(to) )
+    } catch {
+        return app.printMessage('fail')
+    }
     const fileName = getFileName( from )
-
-    const pathFile = resolve( from )
-    const pathDest = resolve( to )
-
-    await access ( pathFile )
-    await isFolder( to )
-
     const brotli = createBrotliDecompress ()
-    const rs = createReadStream ( pathFile )
-    const ws = createWriteStream ( resolve( to ) )
+    const rs = createReadStream ( resolve( from ) )
+    const ws = createWriteStream ( resolve( fileName.replace('.br', '') ) )
 
     rs.pipe ( brotli ).pipe ( ws )
 }

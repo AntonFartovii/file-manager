@@ -6,7 +6,7 @@ import {parseArgs} from "../utils.js";
 import {app} from "../app.js";
 
 export const rn = async  ( args ) => {
-    let [from, to] = parseArgs( args )
+    let [from, to] = args
 
     if ( to === '') return app.printMessage('inval')
     // v.1
