@@ -13,8 +13,11 @@ export const ls = async () => {
                 'Name': item.name,
                  Type
             })
-        }
-        console.table( [...obj.directory, ...obj.file] )
+    }
+
+    console.table( [
+        ...obj.directory.sort( (a, b) => a['Name'].localeCompare(b['Name']) ),
+        ...obj.file.sort( (a, b) => a['Name'].localeCompare(b['Name'])) ] )
 }
 // вывод в таблице по ТЗ с сортировкой - сначала директории, затем файлы
 
