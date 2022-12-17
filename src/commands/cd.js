@@ -17,7 +17,7 @@ export async function cd( args ) {
 }
 
 // cd path_to_directory
-// cd 'path_to_directory'
+// cd 'Some folder'
 // cd directory/directory
 // cd 'directory\directory'
 

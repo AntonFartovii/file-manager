@@ -2,7 +2,7 @@ import { stat } from 'fs/promises'
 import {app} from "./app.js";
 import {access} from 'fs/promises'
 
-export function parseArgs(str) {
+export function parseArgs( str ) {
     let acc = []
     str = str.trim()
 
