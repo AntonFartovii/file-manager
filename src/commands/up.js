@@ -1,6 +1,8 @@
 import { chdir } from 'node:process'
+import {app} from "../app.js";
 
-export async function up() {
+export async function up( args ) {
+    if ( args.length !== 0 ) return app.printMessage('inval')
     await chdir('..')
 }
 
