@@ -14,7 +14,6 @@ export const ls = async () => {
                  Type
             })
     }
-
     console.table( [
         ...obj.directory.sort( (a, b) => a['Name'].localeCompare(b['Name']) ),
         ...obj.file.sort( (a, b) => a['Name'].localeCompare(b['Name'])) ] )
