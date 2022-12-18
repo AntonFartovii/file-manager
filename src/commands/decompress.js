@@ -18,7 +18,7 @@ export const decompress = async ( args ) => {
     const fileName = getFileName( from )
     const brotli = createBrotliDecompress ()
     const rs = createReadStream ( resolve( from ) )
-    const ws = createWriteStream ( resolve( fileName.replace('.br', '') ) )
+    const ws = createWriteStream ( resolve( to, fileName.replace('.br', '') ) )
 
     rs.pipe ( brotli ).pipe ( ws )
 }

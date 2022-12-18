@@ -1,7 +1,9 @@
 import { readdir } from 'fs/promises'
 import { cwd } from 'node:process'
+import {app} from "../app.js";
 
-export const ls = async () => {
+export const ls = async ( args ) => {
+    if ( args.length !== 0 ) return app.printMessage('inval')
     const itemsList = await readdir ( cwd(), {withFileTypes: true} )
     const obj = {
         'directory': [],

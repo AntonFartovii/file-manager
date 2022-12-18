@@ -29,3 +29,8 @@ export const compress = async ( args ) => {
 // Invalid input - неверная команда (отсутствует путь назначения)
 // Operation filed - не существует файл или не существует путь сохранения
 
+// For example:
+// compress any.txt ./
+// compress any.txt .
+// compress any.txt 'some folder'
+
