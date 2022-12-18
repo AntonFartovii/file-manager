@@ -11,8 +11,8 @@ export function parseArgs( str ) {
         if ( str !== '' ) {
             let condition = " "
             let k = 0
-            if ( str[0] === "'" ) {
-                condition = "'"
+            if ( str[0] === `'` || str[0] === `"`) {
+                condition = str[0]
                 k = 1
             }
 
