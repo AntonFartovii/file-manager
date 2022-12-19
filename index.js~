@@ -15,10 +15,11 @@ readline.on('line', async (data) => {
     const [command, ...args] = parseArgs( data )
     try {
         await app.execCommand( command, args )
+        await app.printMessage('curDir')
     } catch (error) {
         await app.printMessage('inval')
+        await app.printMessage('curDir')
     }
-    await app.printMessage('curDir')
     readline.prompt()
 })
 

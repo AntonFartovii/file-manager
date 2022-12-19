@@ -6,9 +6,9 @@ import {parseArgs} from "../utils.js";
 import {app} from "../app.js";
 
 export const rn = async  ( args ) => {
-    let [from, to] = args
+    let [from, to, ...empty] = args
 
-    if ( !to.length ) return app.printMessage('inval')
+    if ( !to.length || empty.length ) return app.printMessage('inval')
     // v.1
     try {
         await access ( resolve(from) )
