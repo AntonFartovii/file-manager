@@ -7,8 +7,8 @@ import { app } from "../app.js";
 
 export const decompress = async ( args ) => {
 
-    const [from, to] = args
-    if ( to === '' ) return app.printMessage('inval')
+    const [from, to, ...empty] = args
+    if ( to.length === 0 || from.length === 0 || empty.length ) return app.printMessage('inval')
     try {
         await access( resolve(from) )
         await access( resolve(to) )

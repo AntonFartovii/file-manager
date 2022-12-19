@@ -5,9 +5,8 @@ import { access } from 'fs/promises'
 
 
 export const rm = async ( args ) => {
-    let [from] = args
-
-    if ( from === '' ) return app.printMessage('inval')
+    let [from, ...empty] = args
+    if ( from.length === 0 || empty.length ) return app.printMessage('inval')
 
     const filePath = resolve( from )
     try {
@@ -19,3 +18,5 @@ export const rm = async ( args ) => {
 }
 
 // rm path_to_file
+
+// Invalid input - неверная команда (отсутствует путь) или лишние аргументы

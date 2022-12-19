@@ -7,10 +7,10 @@ import { rm } from "./rm.js";
 import { app } from "../app.js";
 
 export const cp = async ( args, deleteFrom= false ) => {
-    let [from, to] = args
+    const [from, to, ...empty] = args
     const filename = getFileName( from )
 
-    if ( from === '' || to === '' ) return app.printMessage('inval')
+    if ( to.length === 0 || from.length === 0 || empty.length ) return app.printMessage('inval')
     try {
         await access( resolve(from) )
         await isFolder( resolve(to) )

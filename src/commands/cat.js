@@ -5,8 +5,8 @@ import {app} from '../app.js'
 import {access} from 'fs/promises'
 
 export const cat = async ( args ) => {
-    let [from] = args
-    if ( from === '' ) return app.printMessage('inval')
+    let [from, ...empty] = args
+    if ( from.length === 0 || empty.length ) return app.printMessage('inval')
 
     const filePath = resolve( from )
     try {
@@ -42,5 +42,5 @@ export const cat = async ( args ) => {
 // cat 'path_to_file'
 
 // Read file and print it's content in console (should be done using Readable stream)
-// Invalid input - неверная команда (отсутствует путь)
-// Operation filed - не существует файл или некорректный путь
+// Invalid input - неверная команда (отсутствует путь) или лишние аргументы
+// Operation filed - не существует файл или путь

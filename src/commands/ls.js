@@ -3,7 +3,7 @@ import { cwd } from 'node:process'
 import {app} from "../app.js";
 
 export const ls = async ( args ) => {
-    if ( args.length !== 0 ) return app.printMessage('inval')
+    if ( args.length  ) return app.printMessage('inval')
     const itemsList = await readdir ( cwd(), {withFileTypes: true} )
     const obj = {
         'directory': [],
@@ -21,8 +21,11 @@ export const ls = async ( args ) => {
         ...obj.file.sort( (a, b) => a['Name'].localeCompare(b['Name'])) ] )
 }
 // вывод в таблице по ТЗ с сортировкой - сначала директории, затем файлы
+// сортировка по именам
 
 // ls
+
+// Invalid input - неверная команда или лишние аргументы
 
 // Print in console list of all files and folders in current directory. List should contain:
 //     list should contain files and folder names (for files - with extension)

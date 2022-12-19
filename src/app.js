@@ -60,11 +60,11 @@ class FileManager {
                this.print(`You are currently in ${cwd()}`)
             },
             'welcome': () => {
-                this.userName = this.userName || 'unknown user'
+                this.userName = this.userName || 'Unknown user'
                 this.print(`Welcome to the File Manager, ${this.userName}!`)
             },
             'bye':     () => {
-                this.userName = this.userName || 'unknown user'
+                this.userName = this.userName || 'Unknown user'
                 this.print(`Thank you for using File Manager, ${this.userName}!`)},
             'inval':   () => {
                 this.print(`Invalid input`)

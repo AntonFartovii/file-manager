@@ -7,9 +7,9 @@ import {access} from 'fs/promises'
 
 export const hash = async ( args ) => {
 
-    let [filename, arg] = args
-    if ( filename === '' ) return app.printMessage('inval')
-    let filePath = resolve( filename )
+    let [from, ...empty] = args
+    if ( from.length === 0 || empty.length ) return app.printMessage('inval')
+    let filePath = resolve( from )
     try {
         await access(filePath)
     } catch {
@@ -34,4 +34,5 @@ export const hash = async ( args ) => {
     })
 }
 
-
+// Invalid input - неверная команда или лишние аргументы
+// Operation failed - не существует файл

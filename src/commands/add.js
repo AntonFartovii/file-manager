@@ -1,22 +1,27 @@
 import { resolve } from 'path'
-import { createWriteStream } from 'fs'
-import {parseArgs} from "../utils.js";
+import { createWriteStream, constants} from 'fs'
 import {app} from "../app.js";
 import {access} from 'fs/promises'
 
 export const add = async ( args ) => {
 
-    let [from] = args
-    if ( from === '' ) return app.printMessage('inval')
+    let [from, ...empty] = args
+    if ( from.length === 0 || empty.length ) return app.printMessage('inval')
 
     const filePath = resolve( from )
+    try {
+        await access( filePath, constants.F_OK);
+        return app.printMessage('fail')
+    } catch {
+        const writeStream = createWriteStream( filePath )
+        writeStream.on('error', () => {
+            app.printMessage('fail')
+        })
+        writeStream.write('')
+        writeStream.end('')
+    }
 
-    const writeStream = createWriteStream( filePath )
-    writeStream.on('error', () => {
-        app.printMessage('fail')
-    })
-    writeStream.write('')
-    writeStream.end('')
+
 }
 
 // add new_file_name
@@ -27,6 +32,6 @@ export const add = async ( args ) => {
 // add C:\Users\fartovii.txt'
 // add 'C:/Users/fartovii.txt'
 
-// Invalid input - неверная команда (отсутствует путь)
-// Operation filed - не существует например папку указанная в пути
+// Invalid input - неверная команда (отсутствует путь) или лишние аргументы
+// Operation filed - не существует например папку указанная в пути или существует уже файл (защита от перезаписи)
 

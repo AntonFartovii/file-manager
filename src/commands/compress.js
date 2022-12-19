@@ -7,8 +7,8 @@ import { app } from "../app.js";
 
 export const compress = async ( args ) => {
 
-    const [from, to] = args
-    if ( to === '' ) return app.printMessage('inval')
+    const [from, to, ...empty] = args
+    if ( to.length === 0 || from.length === 0 || empty.length ) return app.printMessage('inval')
     try {
         await access( resolve(from) )
         await access( resolve(to) )
@@ -26,7 +26,7 @@ export const compress = async ( args ) => {
 // compress path_to_file path_to_destination
 // Compress file (using Brotli algorithm, should be done using Streams API)
 
-// Invalid input - неверная команда (отсутствует путь назначения)
+// Invalid input - неверная команда (отсутствует путь назначения) или лишний аргумент
 // Operation filed - не существует файл или не существует путь сохранения
 
 // For example:

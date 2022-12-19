@@ -1,5 +1,6 @@
 import { rm } from './rm.js'
 import {cp} from "./cp.js";
+import {app} from "../app.js";
 
 export const mv = async ( args ) => {
 
@@ -7,7 +8,7 @@ export const mv = async ( args ) => {
         await cp( args, true )
 
     } catch (e) {
-        // messenger('fail')
+        app.printMessage('fail')
     }
 }
 

@@ -5,7 +5,8 @@ import { app } from "../app.js";
 
 export async function cd( args ) {
         let [src, ...empty] = args
-        if ( args === '' || empty.length ) return app.printMessage('inval')
+        if ( src === '' || empty.length ) return app.printMessage('inval')
+
         const pathToDir = resolve( src )
         try {
                 await access(pathToDir)
