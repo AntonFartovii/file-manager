@@ -2,6 +2,7 @@ import { access } from 'fs/promises'
 import { resolve } from 'path'
 import { chdir } from 'node:process'
 import { app } from "../app.js";
+import { stat } from 'fs/promises'
 
 export async function cd( args ) {
         let [src, ...empty] = args
@@ -9,11 +10,14 @@ export async function cd( args ) {
 
         const pathToDir = resolve( src )
         try {
-                await access(pathToDir)
+                await access ( pathToDir )
         } catch {
                 return app.printMessage('fail')
         }
-        await access ( pathToDir )
+
+        let stats = await stat( pathToDir )
+        if ( stats.isFile() ) return app.printMessage('fail')
+
         await chdir( pathToDir )
 }
 
